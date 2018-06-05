@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Shell {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("тест тест тест");
+        System.out.print("тест тест тес55т");
         while(true) {
             System.out.print("введите команду>");
             String str = scanner.nextLine();
