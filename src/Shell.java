@@ -7,7 +7,7 @@ public class Shell {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.print("тест 123121");
-        System.out.print("тест 8789787981217");
+        System.out.print("тест 8786457981217");
         while(true) {
             System.out.print("введите команду>");
             String str = scanner.nextLine();
