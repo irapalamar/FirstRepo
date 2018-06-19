@@ -8,8 +8,8 @@ public class Shell {
         Scanner scanner = new Scanner(System.in);
         while(true) {
             System.out.print("введите команду>");
-            String str = scanner.nextLine();
-            switch (str) {
+            String command = scanner.nextLine();
+            switch (command) {
                 case "time":
                     System.out.println(LocalDateTime.now().getHour() + ":" + LocalDateTime.now().getMinute() + ":" + LocalDateTime.now().getSecond());
                     break;
