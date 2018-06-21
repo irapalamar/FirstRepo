@@ -1,4 +1,6 @@
-package ru.sbrf.demo;
+package ru.sbrf.demo.test;
+
+import ru.sbrf.demo.Animal;
 
 public class Dog implements Animal {
     private int age;
@@ -7,6 +9,10 @@ public class Dog implements Animal {
     public Dog (int age, String name){
         this.age=age;
         this.name=name;
+    }
+
+    protected String getColor(){
+        return "red";
     }
 
     @Override
@@ -29,7 +35,7 @@ public class Dog implements Animal {
         this.name = name;
     }
 
-    @Override
+  //  @Override
     public String say() {
         return "Гав-гав";
     }
