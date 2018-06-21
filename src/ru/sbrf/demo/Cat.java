@@ -4,6 +4,10 @@ public class Cat implements Animal {
     private int age;
     private String name;
 
+    public Cat (int age, String name){
+        this.age=age;
+        this.name=name;
+    }
 
     @Override
     public int getAge() {
