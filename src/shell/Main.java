@@ -1,3 +1,5 @@
+package shell;
+
 public class Main {
 
     public static void main(String[] args){
@@ -5,6 +7,8 @@ public class Main {
         shell.addCommand(new TimeCommand());
         shell.addCommand(new DateCommand());
         shell.addCommand(new Exit());
+        shell.addCommand(new Factorial());
+        shell.addCommand(new SortArray());
         shell.runShell();
     }
 }

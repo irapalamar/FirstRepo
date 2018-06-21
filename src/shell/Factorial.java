@@ -1,9 +1,17 @@
+package shell;
+
 import java.math.BigInteger;
 import java.util.Scanner;
 
-public class Factorial {
+public class Factorial implements Command {
 
-    public static void main(String[] args) {
+    @Override
+    public String getName() {
+        return "factorial";
+    }
+
+    @Override
+    public void executed(String[] args) {
         System.out.print("Введите натуральное число: ");
         Scanner scanner = new Scanner(System.in);
         if (scanner.hasNextInt()) {

@@ -1,3 +1,5 @@
+package shell;
+
 import java.time.LocalDateTime;
 
 public class TimeCommand implements Command {

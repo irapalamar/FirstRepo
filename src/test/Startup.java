@@ -1,6 +1,6 @@
-import java.lang.System;
+package test;
+
 import java.util.Random;
-import java.util.Scanner;
 
 public class Startup {
 

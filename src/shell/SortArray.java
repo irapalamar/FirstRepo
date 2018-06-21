@@ -1,16 +1,24 @@
+package shell;
+
 import java.util.Random;
 import java.util.Scanner;
 
-public class SortArray {
+public class SortArray implements Command {
 
-    public static void main(String[] args) {
+    @Override
+    public String getName() {
+        return "sortArray";
+    }
+
+    @Override
+    public void executed(String[] args) {
         int[] arr = fillArray();
         arr = sortIncArray(arr);
         sortDecArray(arr);
     }
 
     public static int sizeArray() {
-        System.out.print("Введите размер массива: ");
+        System.out.print("Введите размер массива для сортировки: ");
         Scanner scanner = new Scanner(System.in);
         int N = scanner.nextInt();
         return N;
@@ -54,6 +62,7 @@ public class SortArray {
             B[i] = A[A.length - i - 1];
             System.out.print(B[i] + " ");
         }
+        System.out.println();
         return B;
     }
 }
