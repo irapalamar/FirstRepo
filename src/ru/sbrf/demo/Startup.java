@@ -5,8 +5,10 @@ public class Startup {
     //private static Logger logger = new LoggerTwo();
     //private static Logger logger = new LoggerThree();
     public static void main(String[] args) {
-        Animal[] animals = {new Dog(2, "Шарик"), new Cat(5, "Бобик")};
-        showAll(animals);
+       // Animal[] animals = {new Dog(2, "Шарик"), new Cat(5, "Бобик")};
+       // showAll(animals);
+        Printer p = Printer.getIntance();
+        p.printText("123");
     }
 
     private static void showAll(Animal[] animals) {
