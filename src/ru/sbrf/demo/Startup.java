@@ -9,7 +9,7 @@ public class Startup {
     public static void main(String[] args) {
        //Animal[] animals = {new Dog(2, "Шарик"), new Cat(5, "Бобик")};
         MiniDog miniDog = new MiniDog(2, "Шарик");
-     //  System.out.println(miniDog.say());
+        System.out.println(miniDog.say());
        // showAll(animals);
        // Printer p = Printer.getIntance();
        // p.printText("123");
