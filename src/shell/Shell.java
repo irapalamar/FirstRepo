@@ -23,6 +23,21 @@ public class Shell {
     public void addCommand(Command c) {
         commands.put(c.getName(), c);
     }
+
+    public class Help implements Command{
+
+        @Override
+        public String getName() {
+            return "help";
+        }
+
+        @Override
+        public void executed(String[] args) {
+            for (Command command:commands.values()){
+                System.out.println(command.getName());
+            }
+        }
+    }
 }
 
 
