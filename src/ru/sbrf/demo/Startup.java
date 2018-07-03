@@ -1,7 +1,5 @@
 package ru.sbrf.demo;
 
-import ru.sbrf.demo.test.Dog;
-
 public class Startup {
     // private static Logger logger = new LoggerOne();
     //private static Logger logger = new LoggerTwo();

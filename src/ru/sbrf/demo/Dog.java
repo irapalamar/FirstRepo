@@ -1,4 +1,4 @@
-package ru.sbrf.demo.test;
+package ru.sbrf.demo;
 
 import ru.sbrf.demo.Animal;
 
