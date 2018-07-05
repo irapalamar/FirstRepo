@@ -1,5 +1,7 @@
 package com.company;
 
+import java.util.NoSuchElementException;
+
 public class ArrayList implements List {
     private Object[] array;
     private int size;
@@ -11,18 +13,17 @@ public class ArrayList implements List {
     @Override
     public void add(int index, Object item) {
         extendArrayAsNeeded();
-            if (array[index]==null) {
-                array[index]=item;
-                size++;
+        if (array[index] == null) {
+            array[index] = item;
+            size++;
+        } else {
+            for (int i = size; i >= index; i--) {
+                array[i] = array[i - 1];
             }
-            else{
-                for (int i = size+1; i >= index; i--) {
-                    array[i] = array[i - 1];
-                }
-                array[index] = item;
-                size++;
-            }
+            array[index] = item;
+            size++;
         }
+    }
 
 
     @Override
@@ -40,14 +41,17 @@ public class ArrayList implements List {
     @Override
     public Object get(int index) {
         checkForRange(index);
-        return array[index];
+        if (array[index] != null) {
+            return array[index];
+        } else
+            throw new NoSuchElementException();
     }
 
     @Override
     public int indexOf(Object item) {
         for (int i = 0; i < size; i++) {
             if (array[i].equals(item))
-                return 1;
+                return i;
         }
         return -1;
     }
@@ -56,30 +60,34 @@ public class ArrayList implements List {
     public int lastIndexOf(Object item) {
         for (int i = size - 1; i >= 0; i--) {
             if (array[i].equals(item))
-                return 1;
+                return i;
         }
         return -1;
     }
 
     @Override
     public void remove(int index) {
-        for (Object anArray : array) {
-            if (indexOf(anArray) == index) {
-                for (int i = index; i < size; i++) {
-                    array[i] = array[i + 1];
+        if (array[index] != null) {
+            for (Object anArray : array) {
+                if (indexOf(anArray) == index) {
+                    for (int i = index; i < size; i++) {
+                        array[i] = array[i + 1];
+                    }
+                    size--;
                 }
-                size--;
             }
-        }
+        } else throw new NoSuchElementException();
     }
 
     @Override
     public List subList(int from, int to) {
-        List newArray = new ArrayList();
-        for (int i = from; i <= to - 1; i++) {
-            newArray.add(array[i]);
-        }
-        return newArray;
+        if ((array[from] != null) && ((array[to] != null))) {
+            List newArray = new ArrayList();
+            for (int i = from; i <= to - 1; i++) {
+                newArray.add(array[i]);
+            }
+            return newArray;
+        } else throw new NoSuchElementException();
     }
 
     @Override
@@ -94,8 +102,8 @@ public class ArrayList implements List {
 
     @Override
     public boolean contains(Object item) {
-        for (Object anArray : array) {
-            if (anArray.equals(item)) {
+        for (int i = 0; i < size; i++) {
+            if (array[i].equals(item)) {
                 return true;
             }
         }
@@ -112,7 +120,7 @@ public class ArrayList implements List {
     private void extendArrayAsNeeded() {
         if (array.length == size) {
             Object[] newArray = new Object[array.length * 3 / 2 + 1];
-            for (int i = 0; i < size; ++i) {
+            for (int i = 0; i < size; i++) {
                 newArray[i] = array[i];
             }
             array = newArray;
@@ -121,22 +129,22 @@ public class ArrayList implements List {
 
     @Override
     public boolean remove(Object item) {
-        for (Object anArray : array) {
-            if (anArray.equals(item)) {
-                for (int i = indexOf(anArray); i < size; i++) {
-                    array[i] = array[i + 1];
+        boolean isDelete = false;
+        for (int i = 0; i < size; i++) {
+            if (array[i].equals(item)) {
+                for (int j = indexOf(array[i]); j < size; j++) {
+                    array[j] = array[j + 1];
                 }
                 size--;
-                return true;
+                isDelete = true;
             }
         }
-        return false;
+        return isDelete;
     }
 
     @Override
     public void clear() {
-        for (Object anArray : array) {
-            anArray = null;
-        }
+        array = new Object[10];
+        size = 0;
     }
 }
