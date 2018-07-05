@@ -1,7 +1,5 @@
 package com.company;
 
-import java.util.NoSuchElementException;
-
 public class ArrayList implements List {
     private Object[] array;
     private int size;
@@ -12,19 +10,14 @@ public class ArrayList implements List {
 
     @Override
     public void add(int index, Object item) {
+        checkForRange(index);
         extendArrayAsNeeded();
-        if (array[index] == null) {
-            array[index] = item;
-            size++;
-        } else {
-            for (int i = size; i >= index; i--) {
-                array[i] = array[i - 1];
-            }
-            array[index] = item;
-            size++;
+        for (int i = size; i > index; i--) {
+            array[i] = array[i - 1];
         }
+        array[index] = item;
+        size++;
     }
-
 
     @Override
     public void set(int index, Object item) {
@@ -41,17 +34,21 @@ public class ArrayList implements List {
     @Override
     public Object get(int index) {
         checkForRange(index);
-        if (array[index] != null) {
-            return array[index];
-        } else
-            throw new NoSuchElementException();
+        return array[index];
     }
 
     @Override
     public int indexOf(Object item) {
-        for (int i = 0; i < size; i++) {
-            if (array[i].equals(item))
-                return i;
+        if (item == null) {
+            for (int i = 0; i < size; i++) {
+                if (array[i] == null)
+                    return i;
+            }
+        } else {
+            for (int i = 0; i < size; i++) {
+                if (array[i].equals(item))
+                    return i;
+            }
         }
         return -1;
     }
@@ -67,27 +64,25 @@ public class ArrayList implements List {
 
     @Override
     public void remove(int index) {
-        if (array[index] != null) {
-            for (Object anArray : array) {
-                if (indexOf(anArray) == index) {
-                    for (int i = index; i < size; i++) {
-                        array[i] = array[i + 1];
-                    }
-                    size--;
-                }
-            }
-        } else throw new NoSuchElementException();
+        checkForRange(index);
+        for (int i = index; i < size - 1; ++i) {
+            array[i] = array[i + 1];
+        }
+        array[--size] = null;
     }
 
     @Override
     public List subList(int from, int to) {
-        if ((array[from] != null) && ((array[to] != null))) {
-            List newArray = new ArrayList();
-            for (int i = from; i <= to - 1; i++) {
-                newArray.add(array[i]);
-            }
-            return newArray;
-        } else throw new NoSuchElementException();
+        checkForRange(from, to);
+        List result = new ArrayList();
+        for (int i = from; i < to; i++) {
+            result.add(array[i]);
+        }
+        return result;
+    }
+
+    private void checkForRange(int from, int to) {
+
     }
 
     @Override
@@ -102,12 +97,7 @@ public class ArrayList implements List {
 
     @Override
     public boolean contains(Object item) {
-        for (int i = 0; i < size; i++) {
-            if (array[i].equals(item)) {
-                return true;
-            }
-        }
-        return false;
+        return indexOf(item) != -1;
     }
 
     @Override
@@ -129,17 +119,13 @@ public class ArrayList implements List {
 
     @Override
     public boolean remove(Object item) {
-        boolean isDelete = false;
         for (int i = 0; i < size; i++) {
             if (array[i].equals(item)) {
-                for (int j = indexOf(array[i]); j < size; j++) {
-                    array[j] = array[j + 1];
-                }
-                size--;
-                isDelete = true;
+                remove(i);
+                return true;
             }
         }
-        return isDelete;
+        return false;
     }
 
     @Override
