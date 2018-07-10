@@ -46,10 +46,11 @@ public class Main {
             linkList.add(r.nextInt(100));
         }
         printList(linkList);
-        linkList.addFirst(new Integer(22));
+        linkList.addFirst(22);
         printList(linkList);
         System.out.println("Размер: " + linkList.size());
-        
+        linkList.addLast(22);
+        printList(linkList);
       //  linkList.addLast(22);
      //   printList(linkList);
     }

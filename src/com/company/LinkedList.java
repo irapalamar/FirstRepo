@@ -43,18 +43,20 @@ public class LinkedList implements Deque, List {
 
     @Override
     public Object getFirst() {
-        if (first != null) {
-            return first.item;
-        } else
+        checkForNotEmpty();
+        return first.item;
+    }
+
+    private void checkForNotEmpty() {
+        if (isEmpty()) {
             throw new NoSuchElementException();
+        }
     }
 
     @Override
     public Object getLast() {
-        if (last != null) {
-            return last.item;
-        } else
-            throw new NoSuchElementException();
+        checkForNotEmpty();
+        return last.item;
     }
 
     @Override
@@ -174,7 +176,7 @@ public class LinkedList implements Deque, List {
 
     @Override
     public void add(int index, Object item) {
-        CheckForRange(index);
+        checkForRange(index);
         int i = 0;
         Node newFirst = new Node();
         newFirst.item = item;
@@ -195,7 +197,7 @@ public class LinkedList implements Deque, List {
         }
     }
 
-    private void CheckForRange(int index) {
+    private void checkForRange(int index) {
         if ((index < 0) || (index >= size)) {
             throw new IndexOutOfBoundsException();
         }
@@ -203,7 +205,7 @@ public class LinkedList implements Deque, List {
 
     @Override
     public void set(int index, Object item) {
-        CheckForRange(index);
+        checkForRange(index);
         int i = 0;
         for (Node current = first; current != null; current = current.next) {
             if (i == index) {
@@ -215,46 +217,27 @@ public class LinkedList implements Deque, List {
 
     @Override
     public Object get(int index) {
-        CheckForRange(index);
-        if (index==0){
-            return getFirst();
-        }
-        if (index==size-1){
-            return getLast();
-        }
-        if (index > size / 2) {
-            int i = size-1;
-            for (Node current = last; current != null; current = current.prev) {
-                if (i == index) {
-                    return current.item;
-                } else
-                    i--;
-            }
-        } else {
-            int i = 0;
-            for (Node current = first; current != null; current = current.next) {
-                if (i == index) {
-                    return current.item;
-                } else i++;
-            }
-        }
-        return -1;
+        checkForRange(index);
+        return getNode(index).item;
     }
 
     @Override
     public int indexOf(Object item) {
-        int index = 0;
         if (item == null) {
-            for (Node current = first; current != null; current = current.next) {
-                if (current.item == null)
-                    return index;
-                else index++;
+            Node current = first;
+            for (int i = 0; i < size; ++i) {
+                if (current.item == null) {
+                    return i;
+                }
+                current = current.next;
             }
         } else {
-            for (Node current = first; current != null; current = current.next) {
-                index++;
-                if (current.item.equals(item))
-                    return index;
+            Node current = first;
+            for (int i = 0; i < size; ++i) {
+                if (item.equals(current.item)) {
+                    return i;
+                }
+                current = current.next;
             }
         }
         return -1;
@@ -262,40 +245,66 @@ public class LinkedList implements Deque, List {
 
     @Override
     public int lastIndexOf(Object item) {
-        return size-1;
+        return size - 1;
     }
 
     @Override
     public void remove(int index) {
-        CheckForRange(index);
-        if (index == 0) {
-            removeFirst();
-        } else if (index == size - 1) {
-            removeLast();
-        } else {
-            int i = 0;
-            for (Node current = first; current != null; current = current.next) {
-                if (i == index) {
-                    current.prev.next=current.next;
-                    current.next.prev=current.prev;
-                    size--;
-                }
-            }
-          }
+        checkForRange(index);
+        removeNode(getNode(index));
+    }
 
+    private Node getNode(int index) {
+        if (index < size / 2) {
+            return getNodeFromLeft(index);
+        } else {
+            return getNodeFromRight(index);
+        }
+    }
+
+    private Node getNodeFromLeft(int index) {
+        Node current = first;
+        for (int i = 0; i < index; ++i) {
+            current = current.next;
+        }
+        return current;
+    }
+
+    private Node getNodeFromRight(int index) {
+        Node current = last;
+        for (int i = size - 1; i >= index; --i) {
+            current = current.prev;
+        }
+        return current;
+    }
+
+    private void removeNode(Node removingNode) {
+        if (removingNode.prev != null) {
+            removingNode.prev.next = removingNode.next;
+        } else {
+            first = removingNode.next;
+        }
+
+        if (removingNode.next != null) {
+            removingNode.next.prev = removingNode.prev;
+        } else {
+            last = removingNode.prev;
+        }
+
+        size--;
     }
 
     @Override
     public List subList(int from, int to) {
         checkForRange(from, to);
         List result = new LinkedList();
-        int i=0;
+        int i = 0;
         for (Node current = first; current != null; current = current.next) {
-            if ((i>=from)&&(i<=to)){
+            if ((i >= from) && (i <= to)) {
                 result.add(current);
-                }
-            i++;
             }
+            i++;
+        }
         return result;
     }
 
@@ -306,7 +315,7 @@ public class LinkedList implements Deque, List {
         if ((to < 0) || (to >= size)) {
             throw new IndexOutOfBoundsException();
         }
-        if (to>from) {
+        if (to > from) {
             throw new IndexOutOfBoundsException();
         }
     }
