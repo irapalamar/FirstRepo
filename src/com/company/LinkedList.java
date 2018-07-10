@@ -76,7 +76,7 @@ public class LinkedList implements Deque, List {
     @Override
     public Object removeFirst() {
         if (first != null) {
-            innerRemoveFirst();
+            return innerRemoveFirst();
         } else
             throw new NoSuchElementException();
     }
@@ -96,7 +96,7 @@ public class LinkedList implements Deque, List {
     @Override
     public Object removeLast() {
         if (last != null) {
-            innerRemoveLast();
+            return innerRemoveLast();
         } else
             throw new NoSuchElementException();
     }
@@ -146,7 +146,6 @@ public class LinkedList implements Deque, List {
         if (first == null) {
             return false;
         }
-
         for (Node current = first; current != null; current = current.next) {
             if (current.item.equals(item)) {
                 if (current.prev != null) {
@@ -174,58 +173,141 @@ public class LinkedList implements Deque, List {
 
 
     @Override
-    // ToDo:
     public void add(int index, Object item) {
-        Node n = first;
+        CheckForRange(index);
+        int i = 0;
         Node newFirst = new Node();
-        int i = 1;
-        while (n.next != null) {
-            if (i == index) {
-                n.prev.next = newFirst;
-                newFirst.prev = n.prev;
-                newFirst.next = n.next;
-                n.next.prev = newFirst;
-                break;
-            } else {
-                i++;
-                n = n.next;
+        newFirst.item = item;
+        if (index == 0) {
+            addFirst(item);
+        } else if (index == size) {
+            addLast(item);
+        } else {
+            for (Node current = first; current != null; current = current.next) {
+                if (i == index) {
+                    current.prev.next = newFirst;
+                    newFirst.prev = current.prev;
+                    newFirst.next = current;
+                    current.prev = newFirst;
+                    break;
+                } else i++;
             }
         }
+    }
 
+    private void CheckForRange(int index) {
+        if ((index < 0) || (index >= size)) {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     @Override
     public void set(int index, Object item) {
-
+        CheckForRange(index);
+        int i = 0;
+        for (Node current = first; current != null; current = current.next) {
+            if (i == index) {
+                current.item = item;
+                break;
+            } else i++;
+        }
     }
 
     @Override
     public Object get(int index) {
-        if (index > size / 2) {
-
-        } else {
-
+        CheckForRange(index);
+        if (index==0){
+            return getFirst();
         }
-        return null;
+        if (index==size-1){
+            return getLast();
+        }
+        if (index > size / 2) {
+            int i = size-1;
+            for (Node current = last; current != null; current = current.prev) {
+                if (i == index) {
+                    return current.item;
+                } else
+                    i--;
+            }
+        } else {
+            int i = 0;
+            for (Node current = first; current != null; current = current.next) {
+                if (i == index) {
+                    return current.item;
+                } else i++;
+            }
+        }
+        return -1;
     }
 
     @Override
     public int indexOf(Object item) {
-        return 0;
+        int index = 0;
+        if (item == null) {
+            for (Node current = first; current != null; current = current.next) {
+                if (current.item == null)
+                    return index;
+                else index++;
+            }
+        } else {
+            for (Node current = first; current != null; current = current.next) {
+                index++;
+                if (current.item.equals(item))
+                    return index;
+            }
+        }
+        return -1;
     }
 
     @Override
     public int lastIndexOf(Object item) {
-        return 0;
+        return size-1;
     }
 
     @Override
     public void remove(int index) {
+        CheckForRange(index);
+        if (index == 0) {
+            removeFirst();
+        } else if (index == size - 1) {
+            removeLast();
+        } else {
+            int i = 0;
+            for (Node current = first; current != null; current = current.next) {
+                if (i == index) {
+                    current.prev.next=current.next;
+                    current.next.prev=current.prev;
+                    size--;
+                }
+            }
+          }
 
     }
 
     @Override
     public List subList(int from, int to) {
-        return null;
+        checkForRange(from, to);
+        List result = new LinkedList();
+        int i=0;
+        for (Node current = first; current != null; current = current.next) {
+            if ((i>=from)&&(i<=to)){
+                result.add(current);
+                }
+            i++;
+            }
+        return result;
+    }
+
+    private void checkForRange(int from, int to) {
+        if ((from < 0) || (from >= size)) {
+            throw new IndexOutOfBoundsException();
+        }
+        if ((to < 0) || (to >= size)) {
+            throw new IndexOutOfBoundsException();
+        }
+        if (to>from) {
+            throw new IndexOutOfBoundsException();
+        }
     }
 }

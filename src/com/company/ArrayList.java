@@ -82,7 +82,15 @@ public class ArrayList implements List {
     }
 
     private void checkForRange(int from, int to) {
-
+        if ((from < 0) || (from >= size)) {
+            throw new IndexOutOfBoundsException();
+        }
+        if ((to < 0) || (to >= size)) {
+            throw new IndexOutOfBoundsException();
+        }
+        if (to>from) {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     @Override

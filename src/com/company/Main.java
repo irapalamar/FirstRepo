@@ -5,12 +5,12 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String args[]) {
-        List list = new ArrayList();
-        Random r = new Random();
+    public static void main(String[] args) {
+       // List list = new ArrayList();
+       // Random r = new Random();
         /*System.out.println("Введите кол-во элементов массива:");
         Scanner scanner = new Scanner(System.in);
-        int longArray = scanner.nextInt();*/
+        int longArray = scanner.nextInt();
         int longArray = 10;
         for (int i = 0; i < longArray; i++) {
             list.add(r.nextInt(100));
@@ -39,7 +39,19 @@ public class Main {
         System.out.println("Есть элемент 99? " + list.contains(99));
         list.clear();
         System.out.println("Удаляем все элементы");
-        System.out.println("Список пуст? " + list.isEmpty());
+        System.out.println("Список пуст? " + list.isEmpty());*/
+        LinkedList linkList = new LinkedList();
+        Random r = new Random();
+        for (int i = 0; i < 10; i++) {
+            linkList.add(r.nextInt(100));
+        }
+        printList(linkList);
+        linkList.addFirst(new Integer(22));
+        printList(linkList);
+        System.out.println("Размер: " + linkList.size());
+        
+      //  linkList.addLast(22);
+     //   printList(linkList);
     }
 
     public static void printList(List list) {
