@@ -91,6 +91,7 @@ public class TestLinkedList {
         printList(linkList);
         System.out.println(linkList.lastIndexOf(88));
         linkList.clear();
+        printList(linkList);
     }
 
     public static void printList(List list) {
