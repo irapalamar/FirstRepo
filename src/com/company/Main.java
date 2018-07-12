@@ -1,7 +1,6 @@
 package com.company;
 
 import java.util.Random;
-import java.util.Scanner;
 
 public class Main {
 
@@ -47,12 +46,48 @@ public class Main {
         }
         printList(linkList);
         linkList.addFirst(22);
+        System.out.print("Добавили в начало: ");
         printList(linkList);
         System.out.println("Размер: " + linkList.size());
         linkList.addLast(22);
+        System.out.print("Добавили в конец: ");
         printList(linkList);
-      //  linkList.addLast(22);
-     //   printList(linkList);
+        System.out.println("Есть ли элемент 22? " + linkList.contains(22));
+        System.out.print("Удалили первый: ");
+        linkList.removeFirst();
+        printList(linkList);
+        System.out.print("Удалили последний: ");
+        linkList.removeLast();
+        printList(linkList);
+        System.out.println("Есть ли элемент 22? " + linkList.contains(22));
+        System.out.println("Первый: " + linkList.getFirst());
+        System.out.println("Последний: " + linkList.getLast());
+        System.out.print("Удалили первый: ");
+        linkList.pollFirst();
+        printList(linkList);
+        System.out.print("Удалили последний: ");
+        linkList.pollLast();
+        printList(linkList);
+        System.out.print("Добавили 55 на 3,6 и 8 позицию: ");
+        linkList.add(3,55);
+        linkList.add(6,55);
+        linkList.add(8,55);
+        printList(linkList);
+        System.out.print("Удалили с 8 позиции: ");
+        linkList.remove(8);
+        printList(linkList);
+        System.out.print("Удалили число 55: ");
+        linkList.remove(new Integer(55));
+        printList(linkList);
+        linkList.set(7,88);
+        System.out.print("Заменили на 7 позиции значение на 88: ");
+        printList(linkList);
+        System.out.println("Находим значение 4 позиции: " + linkList.get(4));
+        System.out.println("Находим индекс числа 55: " + linkList.indexOf(55));
+        List list2 = linkList.subList(3,7);
+        printList(list2);
+        linkList.clear();
+
     }
 
     public static void printList(List list) {
