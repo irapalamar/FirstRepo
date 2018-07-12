@@ -1,15 +1,15 @@
 package com.company;
 
-public class ArrayList implements List {
-    private Object[] array;
+public class ArrayList<T> implements List<T> {
+    private T[] array;
     private int size;
 
     public ArrayList() {
-        array = new Object[10];
+        array = (T[]) new Object[10];
     }
 
     @Override
-    public void add(int index, Object item) {
+    public void add(int index, T item ) {
         checkForRange(index);
         extendArrayAsNeeded();
         for (int i = size; i > index; i--) {
@@ -20,7 +20,7 @@ public class ArrayList implements List {
     }
 
     @Override
-    public void set(int index, Object item) {
+    public void set(int index, T item) {
         checkForRange(index);
         array[index] = item;
     }
@@ -32,13 +32,13 @@ public class ArrayList implements List {
     }
 
     @Override
-    public Object get(int index) {
+    public T get(int index) {
         checkForRange(index);
         return array[index];
     }
 
     @Override
-    public int indexOf(Object item) {
+    public int indexOf(T item) {
         if (item == null) {
             for (int i = 0; i < size; i++) {
                 if (array[i] == null)
@@ -54,7 +54,7 @@ public class ArrayList implements List {
     }
 
     @Override
-    public int lastIndexOf(Object item) {
+    public int lastIndexOf(T item) {
         for (int i = size - 1; i >= 0; i--) {
             if (array[i].equals(item))
                 return i;
@@ -74,7 +74,7 @@ public class ArrayList implements List {
     @Override
     public List subList(int from, int to) {
         checkForRange(from, to);
-        List result = new ArrayList();
+        List<T> result = new ArrayList<>();
         for (int i = from; i < to; i++) {
             result.add(array[i]);
         }
@@ -104,12 +104,12 @@ public class ArrayList implements List {
     }
 
     @Override
-    public boolean contains(Object item) {
+    public boolean contains(T item) {
         return indexOf(item) != -1;
     }
 
     @Override
-    public boolean add(Object item) {
+    public boolean add(T item) {
         extendArrayAsNeeded();
         array[size++] = item;
         return true;
@@ -117,7 +117,7 @@ public class ArrayList implements List {
 
     private void extendArrayAsNeeded() {
         if (array.length == size) {
-            Object[] newArray = new Object[array.length * 3 / 2 + 1];
+            T[] newArray = (T[]) new Object[array.length * 3 / 2 + 1];
             for (int i = 0; i < size; i++) {
                 newArray[i] = array[i];
             }
@@ -126,7 +126,7 @@ public class ArrayList implements List {
     }
 
     @Override
-    public boolean remove(Object item) {
+    public boolean remove(T item) {
         for (int i = 0; i < size; i++) {
             if (array[i].equals(item)) {
                 remove(i);
@@ -138,7 +138,7 @@ public class ArrayList implements List {
 
     @Override
     public void clear() {
-        array = new Object[10];
+        array = (T[]) new Object[10];
         size = 0;
     }
 }

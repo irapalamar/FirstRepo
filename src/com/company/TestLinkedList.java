@@ -7,7 +7,7 @@ import java.util.Random;
  */
 public class TestLinkedList {
     public static void main(String[] args) {
-        List list = new ArrayList();
+        List<Integer> list = new ArrayList<>();
         Random r = new Random();
       //  System.out.println("Введите кол-во элементов массива:");
       //  Scanner scanner = new Scanner(System.in);
@@ -32,7 +32,7 @@ public class TestLinkedList {
         System.out.println("Индекс последнего элемента 55: " + list.lastIndexOf(55));
         list.remove(0);
         printList(list);
-        List list2 = list.subList(3, 8);
+        List<Integer> list2 = list.subList(3, 8);
         printList(list2);
         System.out.println("Список пуст? " + list.isEmpty());
         System.out.println("Есть элемент 55? " + list.contains(55));
@@ -40,7 +40,7 @@ public class TestLinkedList {
         list.clear();
         System.out.println("Удаляем все элементы");
         System.out.println("Список пуст? " + list.isEmpty());
-        LinkedList linkList = new LinkedList();
+        LinkedList<Integer> linkList = new LinkedList<>();
         for (int i = 0; i < 10; i++) {
             linkList.add(r.nextInt(100));
         }
@@ -85,7 +85,7 @@ public class TestLinkedList {
         printList(linkList);
         System.out.println("Находим значение 4 позиции: " + linkList.get(4));
         System.out.println("Находим индекс числа 55: " + linkList.indexOf(55));
-        List list3 = linkList.subList(3, 7);
+        List<Integer> list3 = linkList.subList(3, 7);
         printList(list3);
         System.out.println("Размер: " + linkList.size());
         printList(linkList);

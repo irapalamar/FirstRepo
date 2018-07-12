@@ -1,11 +1,11 @@
 package com.company;
 
-interface List extends Collection {
-    void add(int index, Object item);
-    void set(int index, Object item);
+interface List<T> extends Collection<T> {
+    void add(int index, T item);
+    void set(int index, T item);
     Object get(int index);
-    int indexOf(Object item);
-    int lastIndexOf(Object item);
+    int indexOf(T item);
+    int lastIndexOf(T item);
     void remove(int index);
     List subList(int from, int to);
 }
