@@ -88,7 +88,7 @@ public class ArrayList implements List {
         if ((to < 0) || (to >= size)) {
             throw new IndexOutOfBoundsException();
         }
-        if (to>from) {
+        if (to<from) {
             throw new IndexOutOfBoundsException();
         }
     }

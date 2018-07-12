@@ -192,7 +192,24 @@ public class LinkedList implements Deque, List {
 
     @Override
     public int lastIndexOf(Object item) {
-        return size - 1;
+        if (item == null) {
+            Node current = last;
+            for (int i = size-1; i >= 0; --i) {
+                if (current.item == null) {
+                    return i;
+                }
+                current = current.prev;
+            }
+        } else {
+            Node current = last;
+            for (int i = size-1; i >= 0; --i) {
+                if (item.equals(current.item)) {
+                    return i;
+                }
+                current = current.prev;
+            }
+        }
+        return - 1;
     }
 
     @Override
