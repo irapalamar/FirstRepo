@@ -17,6 +17,7 @@ public class TestLinkedList {
         }
         printList(list);*/
         list.add(99);
+        //
         list.add(4, 99);
         printList(list);
         list.add(8, 55);
