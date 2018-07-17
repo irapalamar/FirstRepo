@@ -3,14 +3,14 @@ package com.company;
 import java.util.NoSuchElementException;
 
 public class LinkedList<T> implements Deque<T>, List<T> {
-    private class Node {
+    private class Node<T> {
         T item;
-        Node next;
-        Node prev;
+        Node<T> next;
+        Node<T> prev;
     }
 
-    private Node first;
-    private Node last;
+    private Node<T> first;
+    private Node<T> last;
     private int size;
 
     @Override
@@ -218,7 +218,7 @@ public class LinkedList<T> implements Deque<T>, List<T> {
         removeNode(getNode(index));
     }
 
-    private Node getNode(int index) {
+    private Node<T> getNode(int index) {
         if (index < size / 2) {
             return getNodeFromLeft(index);
         } else {
@@ -258,10 +258,10 @@ public class LinkedList<T> implements Deque<T>, List<T> {
     }
 
     @Override
-    public List subList(int from, int to) {
+    public List<T> subList(int from, int to) {
         checkForRange(from, to);
         List<T> result = new ArrayList<>();
-        Node current = getNode(from);
+        Node<T> current = getNode(from);
         for (int i = from; i <= to; ++i) {
             {
                 result.add(current.item);

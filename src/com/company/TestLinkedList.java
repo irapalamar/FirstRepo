@@ -12,10 +12,10 @@ public class TestLinkedList {
       //  System.out.println("Введите кол-во элементов массива:");
       //  Scanner scanner = new Scanner(System.in);
       //  int longArray = scanner.nextInt();
-        for (int i = 0; i < 10; i++) {
+        /*for (int i = 0; i < 10; i++) {
             list.add(r.nextInt(100));
         }
-        printList(list);
+        printList(list);*/
         list.add(99);
         list.add(4, 99);
         printList(list);
