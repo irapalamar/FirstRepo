@@ -1,9 +1,14 @@
 package com.company;
 
+import javafx.util.Pair;
+
 import java.util.NoSuchElementException;
 
 public class LinkedList<T> implements Deque<T>, List<T> {
-    private class Node<T> {
+
+    private static final int NOT_FOUND = -1;
+
+    private static class Node<T> {
         T item;
         Node<T> next;
         Node<T> prev;
@@ -15,7 +20,7 @@ public class LinkedList<T> implements Deque<T>, List<T> {
 
     @Override
     public void addFirst(T item) {
-        Node newNode = new Node();
+        Node<T> newNode = new Node<>();
         newNode.item = item;
         newNode.next = first;
         if (first != null) {
@@ -29,7 +34,7 @@ public class LinkedList<T> implements Deque<T>, List<T> {
 
     @Override
     public void addLast(T item) {
-        Node newNode = new Node();
+        Node<T> newNode = new Node<>();
         newNode.item = item;
         newNode.prev = last;
         if (last != null) {
@@ -47,6 +52,12 @@ public class LinkedList<T> implements Deque<T>, List<T> {
         return first.item;
     }
 
+    @Override
+    public T getLast() {
+        checkForNotEmpty();
+        return last.item;
+    }
+
     private void checkForNotEmpty() {
         if (isEmpty()) {
             throw new NoSuchElementException();
@@ -54,17 +65,9 @@ public class LinkedList<T> implements Deque<T>, List<T> {
     }
 
     @Override
-    public T getLast() {
-        checkForNotEmpty();
-        return last.item;
-    }
-
-    @Override
     public T pollFirst() {
         if (first != null) {
-            T oldFirst = first.item;
-            removeNode(getNode(0));
-            return oldFirst;
+            return removeNode(first);
         } else
             return null;
     }
@@ -72,9 +75,7 @@ public class LinkedList<T> implements Deque<T>, List<T> {
     @Override
     public T pollLast() {
         if (last != null) {
-            T oldLast = last.item;
-            removeNode(getNode(size-1));
-            return oldLast;
+            return removeNode(last);
         } else
             return null;
     }
@@ -82,9 +83,7 @@ public class LinkedList<T> implements Deque<T>, List<T> {
     @Override
     public T removeFirst() {
         if (first != null) {
-            T oldFirst = first.item;
-            removeNode(getNode(0));
-            return oldFirst;
+            return removeNode(first);
         } else
             throw new NoSuchElementException();
     }
@@ -92,9 +91,7 @@ public class LinkedList<T> implements Deque<T>, List<T> {
     @Override
     public T removeLast() {
         if (last != null) {
-            T oldLast = last.item;
-            removeNode(getNode(size-1));
-            return oldLast;
+            return removeNode(last);
         } else
             throw new NoSuchElementException();
     }
@@ -111,7 +108,7 @@ public class LinkedList<T> implements Deque<T>, List<T> {
 
     @Override
     public boolean contains(T item) {
-        return indexOf(item) != -1;
+        return indexOf(item) != NOT_FOUND;
     }
 
     @Override
@@ -129,24 +126,61 @@ public class LinkedList<T> implements Deque<T>, List<T> {
 
     @Override
     public boolean remove(T item) {
-        if (first != null) {
-            removeNode(getNode(indexOf(item)));
+        Node<T> removingNode = getNodeInfo(item).getValue();
+        if (removingNode != null) {
+            removeNode(removingNode);
             return true;
+        } else {
+            return false;
         }
-        return false;
+    }
+
+    private Pair<Integer, Node<T>> getNodeInfo(T item) {
+        if (item == null) {
+            Node<T> current = first;
+            for (int i = 0; i < size; ++i) {
+                if (current.item == null) {
+                    return new Pair<>(i, current);
+                }
+                current = current.next;
+            }
+        } else {
+            Node<T> current = first;
+            for (int i = 0; i < size; ++i) {
+                if (item.equals(current.item)) {
+                    return new Pair<>(i, current);
+                }
+                current = current.next;
+            }
+        }
+        return new Pair<>(NOT_FOUND, null);
     }
 
 
     @Override
     public void add(int index, T item) {
+        if (index == size) {
+            addLast(item);
+            return;
+        }
+
         checkForRange(index);
-        Node newFirst = new Node();
-        newFirst.item = item;
-        Node current = getNode(index);
-        current.prev.next = newFirst;
-        newFirst.prev = current.prev;
-        newFirst.next = current;
-        current.prev = newFirst;
+
+        Node<T> next = getNode(index);
+        Node<T> prev = next.prev;
+
+        Node<T> newNode = new Node<>();
+        newNode.item = item;
+        newNode.next = next;
+        newNode.prev = prev;
+
+        if (prev != null) {
+            prev.next = newNode;
+        } else {
+            first = newNode;
+        }
+        next.prev = newNode;
+
         size++;
     }
 
@@ -159,8 +193,8 @@ public class LinkedList<T> implements Deque<T>, List<T> {
     @Override
     public void set(int index, T item) {
         checkForRange(index);
-        getNode(index).item=item;
-       }
+        getNode(index).item = item;
+    }
 
     @Override
     public T get(int index) {
@@ -170,46 +204,29 @@ public class LinkedList<T> implements Deque<T>, List<T> {
 
     @Override
     public int indexOf(T item) {
-        if (item == null) {
-            Node current = first;
-            for (int i = 0; i < size; ++i) {
-                if (current.item == null) {
-                    return i;
-                }
-                current = current.next;
-            }
-        } else {
-            Node current = first;
-            for (int i = 0; i < size; ++i) {
-                if (item.equals(current.item)) {
-                    return i;
-                }
-                current = current.next;
-            }
-        }
-        return -1;
+        return getNodeInfo(item).getKey();
     }
 
     @Override
     public int lastIndexOf(T item) {
         if (item == null) {
-            Node current = last;
-            for (int i = size-1; i >= 0; --i) {
+            Node<T> current = last;
+            for (int i = size - 1; i >= 0; --i) {
                 if (current.item == null) {
                     return i;
                 }
                 current = current.prev;
             }
         } else {
-            Node current = last;
-            for (int i = size-1; i >= 0; --i) {
+            Node<T> current = last;
+            for (int i = size - 1; i >= 0; --i) {
                 if (item.equals(current.item)) {
                     return i;
                 }
                 current = current.prev;
             }
         }
-        return - 1;
+        return NOT_FOUND;
     }
 
     @Override
@@ -226,23 +243,25 @@ public class LinkedList<T> implements Deque<T>, List<T> {
         }
     }
 
-    private Node getNodeFromLeft(int index) {
-        Node current = first;
+    private Node<T> getNodeFromLeft(int index) {
+        Node<T> current = first;
         for (int i = 0; i < index; ++i) {
             current = current.next;
         }
         return current;
     }
 
-    private Node getNodeFromRight(int index) {
-        Node current = last;
+    private Node<T> getNodeFromRight(int index) {
+        Node<T> current = last;
         for (int i = size - 1; i > index; --i) {
             current = current.prev;
         }
         return current;
     }
 
-    private void removeNode(Node removingNode) {
+    private T removeNode(Node<T> removingNode) {
+        T result = removingNode.item;
+
         if (removingNode.prev != null) {
             removingNode.prev.next = removingNode.next;
         } else {
@@ -255,6 +274,8 @@ public class LinkedList<T> implements Deque<T>, List<T> {
             last = removingNode.prev;
         }
         size--;
+
+        return result;
     }
 
     @Override
@@ -262,10 +283,8 @@ public class LinkedList<T> implements Deque<T>, List<T> {
         checkForRange(from, to);
         List<T> result = new ArrayList<>();
         Node<T> current = getNode(from);
-        for (int i = from; i <= to; ++i) {
-            {
-                result.add(current.item);
-            }
+        for (int i = from; i < to; ++i) {
+            result.add(current.item);
             current = current.next;
         }
         return result;

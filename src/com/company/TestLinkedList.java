@@ -7,7 +7,7 @@ import java.util.Random;
  */
 public class TestLinkedList {
     public static void main(String[] args) {
-        List<Integer> list = new ArrayList<>();
+      /*  List<Integer> list = new ArrayList<>();
         Random r = new Random();
       //  System.out.println("Введите кол-во элементов массива:");
       //  Scanner scanner = new Scanner(System.in);
@@ -15,7 +15,7 @@ public class TestLinkedList {
         /*for (int i = 0; i < 10; i++) {
             list.add(r.nextInt(100));
         }
-        printList(list);*/
+        printList(list);
         list.add(99);
         //
         list.add(4, 99);
@@ -40,7 +40,8 @@ public class TestLinkedList {
         System.out.println("Есть элемент 99? " + list.contains(99));
         list.clear();
         System.out.println("Удаляем все элементы");
-        System.out.println("Список пуст? " + list.isEmpty());
+        System.out.println("Список пуст? " + list.isEmpty());*/
+        Random r = new Random();
         LinkedList<Integer> linkList = new LinkedList<>();
         for (int i = 0; i < 10; i++) {
             linkList.add(r.nextInt(100));
