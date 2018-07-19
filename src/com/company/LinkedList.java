@@ -2,11 +2,32 @@ package com.company;
 
 import javafx.util.Pair;
 
+import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+import java.lang.Iterable;
 
 public class LinkedList<T> implements Deque<T>, List<T> {
 
     private static final int NOT_FOUND = -1;
+
+
+
+    @Override
+    public Iterator iterator() {
+        return null;
+    }
+
+    @Override
+    public void forEach(Consumer action) {
+
+    }
+
+    @Override
+    public Spliterator spliterator() {
+        return null;
+    }
 
     private static class Node<T> {
         T item;

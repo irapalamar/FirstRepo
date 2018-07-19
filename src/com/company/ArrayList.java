@@ -1,11 +1,30 @@
 package com.company;
 
+import java.util.Iterator;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+
 public class ArrayList<T> implements List<T> {
     private T[] array;
     private int size;
 
     public ArrayList() {
         array = (T[]) new Object[10];
+    }
+
+    @Override
+    public Iterator iterator() {
+        return null;
+    }
+
+    @Override
+    public void forEach(Consumer action) {
+
+    }
+
+    @Override
+    public Spliterator spliterator() {
+        return null;
     }
 
     @Override
