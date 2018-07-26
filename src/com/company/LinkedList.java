@@ -1,13 +1,14 @@
 package com.company;
 
+import cvs.Version;
 import javafx.util.Pair;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Spliterator;
 import java.util.function.Consumer;
-import java.lang.Iterable;
 
+@Version(value = 1,creationDate = "24.07.2018",author = "piy")
 public class LinkedList<T> implements Deque<T>, List<T> {
 
     private static final int NOT_FOUND = -1;
