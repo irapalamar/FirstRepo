@@ -9,9 +9,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        voters.put("Кандидат 1", new ArrayList<Voter>());
-        voters.put("Кандидат 2", new ArrayList<Voter>());
-        voters.put("Кандидат 3", new ArrayList<Voter>());
+        voters.put("1", new ArrayList<Voter>());
+        voters.put("2", new ArrayList<Voter>());
+        voters.put("3", new ArrayList<Voter>());
 
         while (true) {
             showOutMenu();
@@ -70,8 +70,8 @@ public class Main {
         for (String s : voters.keySet()) {
             System.out.println(s);
         }
-        String candidate = scanner.next();
-      //  int candidate = scanner.nextInt();
+     //   String candidate = scanner.next();
+        int candidate = scanner.nextInt();
         Voter voter = getVoter(gender, age);
         if (voters.containsKey(candidate)) {
             voters.get(candidate).add(voter);
